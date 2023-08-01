@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cm">
+
+	<select id="my_Box_rec" parameterType="String"
+		resultType="chat_message">
+		select * from it_send where receiver_idx=#{receiver_idx} order by ic_idx desc
+	</select>
+	<select id="my_Box_send" parameterType="String"
+		resultType="chat_message">
+		select * from it_send where sender_idx=#{sender_idx} order by ic_idx
+		desc
+	</select>
+	<insert id="sendMsg" parameterType="chat_message">
+		insert into it_send
+		values(seq_it_send_idx.nextval,#{receiver_idx},#{sender_idx},#{receiver_id},#{sender_id},#{receiver_name},#{sender_name},#{content},sysdate,#{is_read},#{subject})
+	</insert>
+	<update id="resend_msg" parameterType="int">
+		update it_send set
+		is_read='읽음' where ic_idx=#{ic_idx}
+	</update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

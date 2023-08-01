@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="c">
+	<select id="chat_list" resultType="chat"
+		parameterType="java.util.Map">
+		SELECT * FROM (SELECT RANK() OVER (ORDER BY C_IDX DESC) no, c.* FROM (SELECT M.M_ID,C.* FROM IT_CHAT C,IT_MEMBER M WHERE M.M_IDX = C.M_IDX) c) WHERE no BETWEEN #{start} and #{end}
+	</select>
+
+	<select id="chat_count" resultType="int">
+		select count(*) from it_chat
+	</select>
+
+	<insert id="chat_insert" parameterType="chat">
+		insert into it_chat
+		values(
+		SEQ_IT_CHAT_IDX.NEXTVAL,
+		#{m_idx},
+		cr_date,
+		#{p_idx}
+		)
+	</insert>
+
+	<select id="chat_selectOne" resultType="chat"
+		parameterType="int">
+		select * from (SELECT M.M_ID,C.* FROM IT_CHAT
+		C,IT_MEMBER M WHERE M.M_IDX =
+		C.M_IDX) where c_idx=#{c_idx}
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
